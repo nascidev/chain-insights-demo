@@ -20,20 +20,35 @@ function App() {
     }
 
     axios
-      .post("http://51.159.105.111:8001/api/text_query", {
+      .post("http://51.159.14.163:8001/api/text_query", {
         network: "Bitcoin",
         user_id: "3fa85f64-5717-4562-b3fc-2c963f66afa6",
         prompt: value,
       })
       .then((res: AxiosResponse) => {
         console.log(res.data);
-        setResponse(JSON.stringify(res.data, null, 4));
+        setResponse(res.data);
         setLoading(false);
       })
       .catch((err) => {
         console.log(err);
-        setResponse(JSON.stringify(err, null, 4));
         setLoading(false);
+
+        if (err.response && err.response?.status < 500) {
+          if (
+            typeof err.response.data === "object" &&
+            err.response.data &&
+            "detail" in err.response.data
+          ) {
+            const responseData = err.response.data as { detail: string };
+
+            setResponse(
+              `Error: ${responseData.detail || "Something Went Wrong"}`
+            );
+            return;
+          }
+        }
+        setResponse("Error: Something Went Wrong");
       });
   };
 
@@ -51,14 +66,14 @@ function App() {
           {loading ? "submitting" : "Submit"}
         </button>
       </form>
-      <div>
+      <div className="response-container">
         {response?.miner_id ? (
           <>
             <p>Miner ID: {response.miner_id}</p>
-            <p>{response.text}</p>
+            <pre>{response.text}</pre>
           </>
         ) : (
-          <p>{response}</p>
+          <pre>{response}</pre>
         )}
       </div>
     </div>

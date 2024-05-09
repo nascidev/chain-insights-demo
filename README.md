@@ -41,7 +41,7 @@ You don’t have to ever use `eject`. The curated feature set is suitable for sm
 
 ### Example query
 
-Show me 15 transactions I sent after block height 800000. My address is 1CGpXZ9LLYwi1baonweGfZDMsyA35sZXCW
+Show me 15 transactions I sent after block height 800000. My address is bc1q4s8yps9my6hun2tpd5ke5xmvgdnxcm2qspnp9r
 
 ## Learn More
 
